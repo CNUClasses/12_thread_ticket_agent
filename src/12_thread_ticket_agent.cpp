@@ -1,7 +1,6 @@
 // Thread_TicketAgent.cpp : Defines the entry point for the console application.
 //
 
-
 #include <vector>
 #include <iostream>
 #include <thread>         // std::thread
