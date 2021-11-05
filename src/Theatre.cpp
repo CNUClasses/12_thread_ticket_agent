@@ -1,7 +1,7 @@
 /*
  * Theatre.cpp
  *
- *  Created on: Nov 3, 2021
+ *  Created on: Nov 4, 2021
  *      Author: keith
  */
 
@@ -9,21 +9,25 @@
 
 namespace KP {
 
-Theatre::Theatre(int capacity):capacity(capacity),numPeopleInThreatre(NONE) {
-	
+Theatre::Theatre(int cap):capacity(cap),curr_numb_people(NONE) {
 }
 
 Theatre::~Theatre() {
 }
 
-bool Theatre::enter(int numPeople){
-//	std::lock_guard<std::mutex> lck(m);
-	if( (getnumPeopleInThreatre() + numPeople) > capacity)
-		return false;
-	
-	numPeopleInThreatre += numPeople;
-	return true;
+bool Theatre::enter(int numbpeople){
+	std::lock_guard<std::mutex> lck(m_th);
+	//if code looks like the following then you get deadlock 
+	//if( (get_curr_numb_people() + numbpeople)<=capacity){
+	//show how to suspend process to see where deadlock has occurred
+	if( (curr_numb_people + numbpeople)<=capacity){
+		curr_numb_people+=numbpeople;
+		return true;
+	}
+	return false;
 }
+int Theatre::get_curr_numb_people(){
+	std::lock_guard<std::mutex> lck(m_th);
+	return curr_numb_people;};
 
 } /* namespace KP */
-
