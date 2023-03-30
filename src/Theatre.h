@@ -1,7 +1,7 @@
 /*
  * Theatre.h
  *
- *  Created on: Nov 4, 2021
+ *  Created on: Mar 30, 2023
  *      Author: keith
  */
 
@@ -9,22 +9,18 @@
 #define THEATRE_H_
 #include <mutex>
 
-namespace KP {
-const int CAP =100;
-const int NONE=0;
-
 class Theatre {
-private:
-	std::mutex m_th;
-	int capacity;  //how many people can hold
-	int curr_numb_people;
 public:
-	Theatre(int cap=CAP);//
 	virtual ~Theatre();
-	bool enter(int numbpeople=1);
-	int get_curr_numb_people();
-};
+	Theatre(int capacity);
+	bool enter();
+private:
 
-} /* namespace KP */
+	bool isfull(){return num_people_in_theatre==capacity;}
+	const int capacity;
+	int num_people_in_theatre;
+	std::mutex m;
+
+};
 
 #endif /* THEATRE_H_ */
